@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>식 기본 객체 (Expression Basic Objects)</h1>
+<ul>
+    <li>request (added by model.addAttribute()) = <span th:text="${request}"></span></li>
+    <li>response (added by model.addAttribute()) = <span th:text="${response}"></span></li>
+    <li>servletContext (added by model.addAttribute()) = <span th:text="${servletContext}"></span></li>
+    <li>session (added by model.addAttribute()) = <span th:text="${session}"></span></li>
+    <li>locale (thymeleaf basic object) = <span th:text="${#locale}"></span></li>
+</ul>
+<h1>편의 객체</h1>
+<ul>
+    <li>request parameter (in request URL) = <span th:text="${param.paramData}"></span></li>
+    <li>sessionData (added by session.setAttribute()) = <span th:text="${session.sessionData}"></span></li>
+    <li>spring bean = <span th:text="${@helloBean.hello('spring!')}"></span></li>
+</ul>
+</body>
+</html>
