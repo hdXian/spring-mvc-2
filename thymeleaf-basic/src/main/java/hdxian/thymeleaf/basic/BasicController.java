@@ -88,8 +88,15 @@ public class BasicController {
 
     @GetMapping("/each")
     public String each(Model model) {
+        // iterable classes what implements interface Iterable, Enumeration are able to use th:each
         addUsers(model);
         return "/basic/each";
+    }
+
+    @GetMapping("/condition")
+    public String condition(Model model) {
+        addUsers(model);
+        return "/basic/condition";
     }
 
     private static void addUsers(Model model) {
