@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>페이지 소스 보기로 페이지 렌더링 결과 확인</h1>
+<!-- 자바스크립트 인라인 사용 전 -->
+<script>
+    var username1 = [[${user1.username}]];
+    var username2 = [[${user2.username}]];
+
+    var age1 = [[${user1.age}]];
+    var age2 = [[${user2.age}]];
+
+    // 자바스크립트 내추럴 템플릿
+    var testUsername = /*[[${user1.username}]]*/ "test username";
+    console.log("testUsername(raw)=" + testUsername);
+
+    // 객체
+    var user = [[${user1}]];
+</script>
+
+<!-- 자바스크립트 인라인 사용 후 -->
+<script th:inline="javascript">
+    var username1 = [[${user1.username}]];
+    var username2 = [[${user2.username}]];
+
+    var age1 = [[${user1.age}]];
+    var age2 = [[${user2.age}]];
+
+    // 자바스크립트 내추럴 템플릿
+    var testUsername = /*[[${user1.username}]]*/ "test username";
+    console.log("testUsername(inline)=" + testUsername);
+
+    // 객체
+    var user = [[${user1}]];
+
+    // th:each 사용
+    [# th:each="user, userStat : ${userList}"]
+    var user[[${userStat.count}]] = [[${user}]]; // 변수명에 숫자를 갖다붙이고, 각 객체를 대입
+    console.log(user[[${userStat.count}]]);
+    [/]
+</script>
+</body>
+</html>

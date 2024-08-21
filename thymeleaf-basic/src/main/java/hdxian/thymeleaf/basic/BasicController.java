@@ -111,6 +111,14 @@ public class BasicController {
         return "/basic/block";
     }
 
+    @GetMapping("/jsinline")
+    public String jsinline(Model model) {
+        model.addAttribute("user1", new User("user1", 10));
+        model.addAttribute("user2", new User("user\"1\"", 20));
+        addUsers(model);
+        return "/basic/jsinline";
+    }
+
     private static void addUsers(Model model) {
         List<User> list = new ArrayList<>();
         list.add(new User("userA", 10));
