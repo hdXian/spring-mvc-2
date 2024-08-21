@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<footer th:fragment="common_footer">
+    공통 footer 입니다.
+</footer>
+
+<footer th:fragment="common_footer_param(param1, param2)">
+    <p>공통 footer (parameter)</p>
+    <p th:text="${param1}"></p>
+    <p th:text="${param2}"></p>
+</footer>
+
+</body>
+</html>
