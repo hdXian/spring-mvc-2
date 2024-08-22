@@ -14,7 +14,7 @@
         <div class="col">
             <button class="btn btn-primary float-end"
                     onclick="location.href='addForm.html'"
-                    th:onclick="|location.href='@{/basic/items/add}'|" type="button">상품 등록
+                    th:onclick="|location.href='@{/form/items/add}'|" type="button">상품 등록
             </button>
         </div>
     </div>
@@ -31,8 +31,8 @@
             </thead>
             <tbody>
             <tr th:each="item : ${items}"> <!-- thymeleaf loop -->
-                <td><a href="item.html" th:href="@{/basic/items/{itemId}(itemId=${item.id})}"  th:text="${item.id}">default id</a></td>
-                <td><a href="item.html" th:href="@{|/basic/items/${item.id}|}" th:text="${item.itemName}">default itemName</a></td>
+                <td><a href="item.html" th:href="@{/form/items/{itemId}(itemId=${item.id})}"  th:text="${item.id}">default id</a></td>
+                <td><a href="item.html" th:href="@{|/form/items/${item.id}|}" th:text="${item.itemName}">default itemName</a></td>
                 <td th:text="${item.price}">default price</td>
                 <td th:text="${item.quantity}">default quantity</td>
             </tr>

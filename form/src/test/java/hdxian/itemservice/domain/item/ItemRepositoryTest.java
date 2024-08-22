@@ -1,8 +1,5 @@
 package hdxian.itemservice.domain.item;
 
-import hdxian.itemservice.domain.Item;
-import hdxian.itemservice.domain.ItemRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 

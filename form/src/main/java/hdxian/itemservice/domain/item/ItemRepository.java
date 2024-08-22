@@ -1,4 +1,4 @@
-package hdxian.itemservice.domain;
+package hdxian.itemservice.domain.item;
 
 import org.springframework.stereotype.Repository;
 
