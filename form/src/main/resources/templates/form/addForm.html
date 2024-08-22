@@ -38,13 +38,24 @@
 
         <hr class="my-4">
         <!-- single checkbox -->
+<!--        <div>판매 여부</div>-->
+<!--        <div>-->
+<!--            <div class="form-check">-->
+<!--                <input type="checkbox" id="open" name="open" class="form-check-input">-->
+<!--&lt;!&ndash;                hidden field - always included in request &ndash;&gt;-->
+<!--&lt;!&ndash;                name is _open. spring uses it to determine if checkbox is checked. &ndash;&gt;-->
+<!--                <input type="hidden" name="_open" class="form-check-input" value="on"> &lt;!&ndash; add hidden field &ndash;&gt;-->
+<!--                <label for="open" class="form-check-label">판매 오픈</label>-->
+<!--            </div>-->
+<!--        </div>-->
+
+        <!-- single checkbox -->
         <div>판매 여부</div>
         <div>
             <div class="form-check">
-                <input type="checkbox" id="open" name="open" class="form-check-input">
-<!--                hidden field - always included in request -->
-<!--                name is _open. spring uses it to determine if checkbox is checked. -->
-                <input type="hidden" name="_open" class="form-check-input" value="on">
+<!--                hidden field added automatically by th:field-->
+<!--                check page source in browser-->
+                <input type="checkbox" id="open" class="form-check-input" th:field="${item.open}">
                 <label for="open" class="form-check-label">판매 오픈</label>
             </div>
         </div>
