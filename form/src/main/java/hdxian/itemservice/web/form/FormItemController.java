@@ -34,7 +34,9 @@ public class FormItemController {
     }
 
     @GetMapping("/add")
-    public String addItemForm() {
+    public String addItemForm(Model model) {
+        // add empty Item for th:object
+        model.addAttribute("item", new Item());
         return "/form/addForm";
     }
 
@@ -44,10 +46,9 @@ public class FormItemController {
         Item savedItem = itemRepository.save(item);
         redirectAttributes.addAttribute("itemId", savedItem.getId());
         redirectAttributes.addAttribute("status", true);
-        // use redirectAttribute as a parameter (also encoded in auto)
-        // the other params generated as query parameter
+
         return "redirect:/form/items/{itemId}";
-        // ex. itemId = 1 -> redirect url is: /basic/items/1?status=true
+        // /basic/items/1?status=true
     }
 
     @GetMapping("/{itemId}/edit")
