@@ -1,0 +1,14 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="common_header(title, links)">
+
+    <!-- fragment에 의해 대체되는 부분 -->
+    <title th:replace="${title}">레이아웃 타이틀</title>
+
+    <!-- 공통 부분 -->
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/awesomeapp.css}">
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <script type="text/javascript" th:src="@{/sh/scripts/codebase.js}"></script>
+
+    <!-- fragment에 의해 추가되는 부분 (th:block 태그가 링크들로 대체됨) -->
+    <th:block th:replace="${links}" />
+</head>

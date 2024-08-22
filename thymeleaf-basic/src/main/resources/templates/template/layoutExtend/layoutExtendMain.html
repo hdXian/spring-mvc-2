@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{template/layoutExtend/baseLayout :: base_layout(~{::title}, ~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <!-- title 태그가 ::title에 들어감 -->
+    <title>메인 페이지 타이틀</title>
+</head>
+<body>
+    <!-- 아래 section 태그와 태용이 ::section에 들어감 -->
+    <section>
+        <p>메인 페이지 컨텐츠 p</p>
+        <div>메인 페이지 컨텐츠 div</div>
+    </section>
+</body>
+</html>
