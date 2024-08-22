@@ -3,6 +3,7 @@ package hdxian.itemservice.web.form;
 import hdxian.itemservice.domain.item.Item;
 import hdxian.itemservice.domain.item.ItemRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequestMapping("/form/items")
 @RequiredArgsConstructor // generate constructor with final properties
@@ -43,6 +45,11 @@ public class FormItemController {
     // use RedirectAttributes
     @PostMapping("/add")
     public String addItemV6(@ModelAttribute("item") Item item, RedirectAttributes redirectAttributes) {
+
+        // parse parameter open=on as true
+        // if checkbox is not checked, parameter "open" isn't exist in request.
+        log.info("item.open={}", item.getOpen());
+
         Item savedItem = itemRepository.save(item);
         redirectAttributes.addAttribute("itemId", savedItem.getId());
         redirectAttributes.addAttribute("status", true);
