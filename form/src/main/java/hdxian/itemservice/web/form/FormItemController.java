@@ -23,14 +23,14 @@ public class FormItemController {
 
     // add "regions" attribute in Model when any controller called
     // as same as adding "model.addAttribute("regions", regions)" statement in all methods
-    @ModelAttribute("regions")
+    @ModelAttribute("regionChoices")
     public Map<String, String> regions() {
         // LinkedHashMap - sequential HashMap
         Map<String, String> regions = new LinkedHashMap<>();
         regions.put("SEOUL", "서울");
         regions.put("BUSAN", "부산");
         regions.put("JEJU", "제주");
-        return regions;
+        return regions; // for display region choices on page
     }
 
     @GetMapping
