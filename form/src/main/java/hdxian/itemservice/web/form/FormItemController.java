@@ -58,11 +58,11 @@ public class FormItemController {
 
     // use RedirectAttributes
     @PostMapping("/add")
-    public String addItemV6(@ModelAttribute("item") Item item, RedirectAttributes redirectAttributes) {
-
+    public String addItem(@ModelAttribute("item") Item item, RedirectAttributes redirectAttributes) {
         // parse parameter open=on as true
         // if checkbox is not checked, parameter "open" isn't exist in request.
         log.info("item.open={}", item.getOpen());
+        log.info("item.regions={}", item.getRegions());
 
         Item savedItem = itemRepository.save(item);
         redirectAttributes.addAttribute("itemId", savedItem.getId());
