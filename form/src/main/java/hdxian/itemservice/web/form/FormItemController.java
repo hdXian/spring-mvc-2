@@ -78,11 +78,15 @@ public class FormItemController {
     @PostMapping("/add")
     public String addItem(@ModelAttribute("item") Item item, RedirectAttributes redirectAttributes) {
 
+        log.info("item.price={}", item.getPrice());
+        log.info("item.quantity={}", item.getQuantity());
+
         log.info("item.open={}", item.getOpen());
         log.info("item.regions={}", item.getRegions());
 
         // toString() value of Enum is name (ex. BOOK)
         log.info("item.itemType={}", item.getItemType());
+        log.info("item.deliveryCode={}", item.getDeliveryCode());
 
         Item savedItem = itemRepository.save(item);
         redirectAttributes.addAttribute("itemId", savedItem.getId());
