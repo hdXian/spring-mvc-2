@@ -69,6 +69,8 @@ public class FormItemController {
 
         log.info("item.open={}", item.getOpen());
         log.info("item.regions={}", item.getRegions());
+
+        // toString() value of Enum is name (ex. BOOK)
         log.info("item.itemType={}", item.getItemType());
 
         Item savedItem = itemRepository.save(item);
