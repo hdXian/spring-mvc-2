@@ -2,6 +2,7 @@ package hdxian.itemservice.web.form;
 
 import hdxian.itemservice.domain.item.Item;
 import hdxian.itemservice.domain.item.ItemRepository;
+import hdxian.itemservice.domain.item.ItemType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -31,6 +32,12 @@ public class FormItemController {
         regions.put("BUSAN", "부산");
         regions.put("JEJU", "제주");
         return regions; // for display region choices on page
+    }
+
+    @ModelAttribute("itemTypes")
+    public ItemType[] itemTypes() {
+        // Enum.values() - returns names of enum (BOOK, FOOD, ETC)
+        return ItemType.values();
     }
 
     @GetMapping
