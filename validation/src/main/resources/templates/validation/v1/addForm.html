@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link href="../../css/bootstrap.min.css"
+          th:href="@{/css/bootstrap.min.css}"
+          rel="stylesheet">
+    <style>
+        .container {
+        max-width: 560px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2 th:text="#{h2Text.addForm}">상품 등록 폼</h2>
+    </div>
+    <h4 class="mb-3" th:text="#{inputText.input}">상품 입력</h4>
+    <form action="item.html" th:action th:object="${item}" method="post">
+        <div>
+            <label for="itemName" th:text="#{labelText.item.itemName}">상품명</label>
+<!--            th:field generates id, name, value property (leave id just because IDE issue) -->
+            <input type="text" id="itemName" class="form-control" th:placeholder="#{inputText.placeholder.itemName}"
+                   placeholder="이름을 입력하세요" th:field="${item.itemName}">
+        <!--<input type="text" class="form-control" placeholder="이름을 입력하세요" id="itemName" name="itemName" value="">-->
+        </div>
+        <div>
+            <label for="price" th:text="#{labelText.item.price}" >가격</label>
+            <input type="text" id="price" class="form-control" th:placeholder="#{inputText.placeholder.price}"
+                   placeholder="가격을 입력하세요" th:field="${item.price}">
+        <!--<input type="text" class="form-control" placeholder="가격을 입력하세요" id="price" name="price" value="">-->
+        </div>
+        <div>
+            <label for="quantity" th:text="#{labelText.item.quantity}">수량</label>
+            <input type="text" id="quantity" class="form-control" th:placeholder="#{inputText.placeholder.quantity}"
+                   placeholder="수량을 입력하세요" th:field="${item.quantity}">
+        <!--<input type="text" class="form-control" placeholder="수량을 입력하세요" id="quantity" name="quantity" value="">-->
+        </div>
+
+        <hr class="my-4">
+
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit" th:text="#{pageText.addItem}">상품 등록</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        onclick="location.href='items.html'"
+                        th:onclick="|location.href='@{/validation/v1/items}'|"
+                        th:text="#{buttonText.cancel}"
+                        type="button">취소</button>
+            </div>
+        </div>
+    </form>
+</div> <!-- /container -->
+</body>
+</html>
