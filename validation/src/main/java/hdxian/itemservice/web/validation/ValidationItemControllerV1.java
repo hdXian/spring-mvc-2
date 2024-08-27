@@ -61,7 +61,7 @@ public class ValidationItemControllerV1 {
             errors.put("quantity", "수량은 1 ~ 9999까지 허용됩니다.");
         }
 
-        if (item.getPrice() != null || item.getQuantity() != null) {
+        if (item.getPrice() != null && item.getQuantity() != null) {
             int totalPrice = item.getPrice() * item.getQuantity();
             if (totalPrice < 10000) {
                 errors.put("globalError", "가격 * 수량은 10,000 원 이상이어야 합니다. 현재 값: " + totalPrice);
