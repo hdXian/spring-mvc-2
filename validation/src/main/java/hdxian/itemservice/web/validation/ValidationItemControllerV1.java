@@ -50,7 +50,7 @@ public class ValidationItemControllerV1 {
         Map<String, String> errors = new HashMap<>();
 
         if (!StringUtils.hasText(item.getItemName())) { // if item name is empty
-            errors.put("ItemName", "상품명은 필수로 기입해야 합니다.");
+            errors.put("itemName", "상품명은 필수로 기입해야 합니다.");
         }
 
         if (item.getPrice() == null || item.getPrice() > 1000000 || item.getPrice() < 1000) {
