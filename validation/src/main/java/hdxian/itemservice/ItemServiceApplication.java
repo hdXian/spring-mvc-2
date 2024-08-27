@@ -10,13 +10,4 @@ public class ItemServiceApplication {
 		SpringApplication.run(ItemServiceApplication.class, args);
 	}
 
-	// spring boot registers ResourceBundleMessageSource as a default MessageSource
-//	@Bean
-//	public MessageSource messageSource() {
-//		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-//		messageSource.setBasenames("messages", "errors");
-//		messageSource.setDefaultEncoding("utf-8");
-//		return messageSource;
-//	}
-
 }
