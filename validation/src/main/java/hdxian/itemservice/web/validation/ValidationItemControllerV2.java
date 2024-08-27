@@ -7,6 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -44,44 +47,44 @@ public class ValidationItemControllerV2 {
     }
 
     @PostMapping("/add")
-    public String addItem(@ModelAttribute("item") Item item, RedirectAttributes redirectAttributes, Model model) {
+    public String addItemV1(@ModelAttribute("item") Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         // add validation logics (field errors)
-        Map<String, String> errors = new HashMap<>();
-
-        if (!StringUtils.hasText(item.getItemName())) { // if item name is empty
-            errors.put("itemName", "상품명은 필수로 기입해야 합니다.");
+        if (!StringUtils.hasText(item.getItemName())) {
+            // new FieldError(String objectName, String fieldName, String defaultMessage)
+            // FieldError extends ObjectError
+            bindingResult.addError(new FieldError("item", "itemName", "상품명은 필수적으로 기입해야 합니다."));
         }
 
         if (item.getPrice() == null || item.getPrice() > 1000000 || item.getPrice() < 1000) {
-            errors.put("price", "가격은 1,000원 ~ 1,000,000원까지 허용됩니다.");
+            bindingResult.addError(new FieldError("item", "price", "가격은 1,000원 ~ 1,000,000원까지 허용됩니다."));
         }
 
         if (item.getQuantity() == null || item.getQuantity() > 9999 || item.getQuantity() < 1) {
-            errors.put("quantity", "수량은 1 ~ 9999까지 허용됩니다.");
+            bindingResult.addError(new FieldError("item", "quantity", "수량은 1 ~ 9999까지 허용됩니다."));
         }
 
         if (item.getPrice() != null && item.getQuantity() != null) {
             int totalPrice = item.getPrice() * item.getQuantity();
             if (totalPrice < 10000) {
-                errors.put("globalError", "가격 * 수량은 10,000 원 이상이어야 합니다. 현재 값: " + totalPrice);
+                // new ObjectError(String objectName, String defaultMessage)
+                bindingResult.addError(new ObjectError("item", "가격 * 수량은 10,000 원 이상이어야 합니다. 현재 값: " + totalPrice));
             }
         }
 
-        if (!(errors.isEmpty())) {
-//            model.addAttribute("item", item); // item already added by @ModelAttribute
-            for (String errorKey : errors.keySet()) {
-                log.info("error {} occurred: {}", errorKey, errors.get(errorKey));
+        // if some errors occurred, render addForm again
+        if (bindingResult.hasErrors()) {
+            for (ObjectError error : bindingResult.getAllErrors()) {
+                log.info("error in {} occurred: {}", error.getObjectName(), error.getDefaultMessage());
             }
-            model.addAttribute("errors", errors);
             return "/validation/v2/addForm";
         }
 
         Item savedItem = itemRepository.save(item);
         redirectAttributes.addAttribute("itemId", savedItem.getId());
-        redirectAttributes.addAttribute("status", true);
+        redirectAttributes.addAttribute("status", true); // put into query parameter
 
-        // /basic/items/1?status=true
+        // /validation/v2/items/1?status=true
         return "redirect:/validation/v2/items/{itemId}";
     }
 
