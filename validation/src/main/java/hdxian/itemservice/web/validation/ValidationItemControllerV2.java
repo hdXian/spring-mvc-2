@@ -47,7 +47,7 @@ public class ValidationItemControllerV2 {
     }
 
     // argument BindingResult must be located after @ModelAttribute
-    @PostMapping("/add")
+//    @PostMapping("/add")
     public String addItemV1(@ModelAttribute("item") Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         // add validation logics (field errors)
@@ -75,9 +75,53 @@ public class ValidationItemControllerV2 {
 
         // if some errors occurred, render addForm again
         if (bindingResult.hasErrors()) {
-            for (ObjectError error : bindingResult.getAllErrors()) {
-                log.info("error in {} occurred: {}", error.getObjectName(), error.getDefaultMessage());
+//            for (ObjectError error : bindingResult.getAllErrors()) {
+//                log.info("error in {} occurred: {}", error.getObjectName(), error.getDefaultMessage());
+//            }
+            log.info("errors={}", bindingResult);
+            return "/validation/v2/addForm";
+        }
+
+        Item savedItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        redirectAttributes.addAttribute("status", true); // put into query parameter
+
+        // /validation/v2/items/1?status=true
+        return "redirect:/validation/v2/items/{itemId}";
+    }
+
+    @PostMapping("/add")
+    public String addItemV2(@ModelAttribute("item") Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+        // add validation logics (field errors)
+        if (!StringUtils.hasText(item.getItemName())) {
+            // new FieldError(String objectName, String fieldName, Object rejectedValue, Boolean bindingFailure, String[] codes, Object[] arguments, String defaultMessage)
+            // FieldError extends ObjectError
+            bindingResult.addError(new FieldError("item", "itemName", item.getItemName(), false, null, null, "상품명은 필수적으로 기입해야 합니다."));
+        }
+
+        if (item.getPrice() == null || item.getPrice() > 1000000 || item.getPrice() < 1000) {
+            bindingResult.addError(new FieldError("item", "price", item.getPrice(), false, null, null, "가격은 1,000원 ~ 1,000,000원까지 허용됩니다."));
+        }
+
+        if (item.getQuantity() == null || item.getQuantity() > 9999 || item.getQuantity() < 1) {
+            bindingResult.addError(new FieldError("item", "quantity", item.getQuantity(), false, null, null, "수량은 1 ~ 9999까지 허용됩니다."));
+        }
+
+        if (item.getPrice() != null && item.getQuantity() != null) {
+            int totalPrice = item.getPrice() * item.getQuantity();
+            if (totalPrice < 10000) {
+                // new ObjectError(String objectName, String[] codes, Object[] arguments, String defaultMessage)
+                bindingResult.addError(new ObjectError("item", null, null, "가격 * 수량은 10,000 원 이상이어야 합니다. 현재 값: " + totalPrice));
             }
+        }
+
+        // if some errors occurred, render addForm
+        if (bindingResult.hasErrors()) {
+//            for (ObjectError error : bindingResult.getAllErrors()) {
+//                log.info("error in {} occurred: {}", error.getObjectName(), error.getDefaultMessage());
+//            }
+            log.info("errors={}", bindingResult);
             return "/validation/v2/addForm";
         }
 
