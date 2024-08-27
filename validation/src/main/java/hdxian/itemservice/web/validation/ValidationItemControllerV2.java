@@ -46,6 +46,7 @@ public class ValidationItemControllerV2 {
         return "/validation/v2/addForm";
     }
 
+    // argument BindingResult must be located after @ModelAttribute
     @PostMapping("/add")
     public String addItemV1(@ModelAttribute("item") Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
