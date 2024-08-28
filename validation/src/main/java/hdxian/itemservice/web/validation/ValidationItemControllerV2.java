@@ -133,7 +133,7 @@ public class ValidationItemControllerV2 {
         return "redirect:/validation/v2/items/{itemId}";
     }
 
-    @PostMapping("/add")
+//    @PostMapping("/add")
     public String addItemV3(@ModelAttribute("item") Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         // add validation logics (field errors)
@@ -160,6 +160,48 @@ public class ValidationItemControllerV2 {
         }
 
         // if some errors occurred, render addForm
+        if (bindingResult.hasErrors()) {
+//            for (ObjectError error : bindingResult.getAllErrors()) {
+//                log.info("error in {} occurred: {}", error.getObjectName(), error.getDefaultMessage());
+//            }
+            log.info("errors={}", bindingResult);
+            return "/validation/v2/addForm";
+        }
+
+        Item savedItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        redirectAttributes.addAttribute("status", true); // put into query parameter
+
+        // /validation/v2/items/1?status=true
+        return "redirect:/validation/v2/items/{itemId}";
+    }
+
+    @PostMapping("/add")
+    public String addItemV4(@ModelAttribute("item") Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+        // add validation logics (field errors)
+        if (!StringUtils.hasText(item.getItemName())) {
+            // rejectValue(String fieldName, String errorCode);
+            bindingResult.rejectValue("itemName", "required");
+        }
+
+        if (item.getPrice() == null || item.getPrice() > 1000000 || item.getPrice() < 1000) {
+            // rejectValue(String fieldName, String errorCode, Object[] errorArgs, String defaultMessage);
+            bindingResult.rejectValue("price", "range", new Object[]{1000, 1000000}, null);
+        }
+
+        if (item.getQuantity() == null || item.getQuantity() > 9999 || item.getQuantity() < 1) {
+            bindingResult.rejectValue("quantity", "max", new Object[]{9999}, null);
+        }
+
+        if (item.getPrice() != null && item.getQuantity() != null) {
+            int totalPrice = item.getPrice() * item.getQuantity();
+            if (totalPrice < 10000) {
+                // reject(String errorCode, Object[] errorArgs, String defaultMessage);
+                bindingResult.reject("totalPriceMin", new Object[]{10000, totalPrice}, null);
+            }
+        }
+
         if (bindingResult.hasErrors()) {
 //            for (ObjectError error : bindingResult.getAllErrors()) {
 //                log.info("error in {} occurred: {}", error.getObjectName(), error.getDefaultMessage());
