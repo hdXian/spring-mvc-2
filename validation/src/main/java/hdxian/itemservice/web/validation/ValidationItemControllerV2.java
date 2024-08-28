@@ -179,6 +179,9 @@ public class ValidationItemControllerV2 {
     @PostMapping("/add")
     public String addItemV4(@ModelAttribute("item") Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
+        log.info("bindingResult.getObjectName() = {}", bindingResult.getObjectName());
+        log.info("bindingResult.getTarget() = {}", bindingResult.getTarget());
+
         // add validation logics (field errors)
         if (!StringUtils.hasText(item.getItemName())) {
             // rejectValue(String fieldName, String errorCode);
