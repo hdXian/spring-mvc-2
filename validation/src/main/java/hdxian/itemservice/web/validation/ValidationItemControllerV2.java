@@ -144,7 +144,7 @@ public class ValidationItemControllerV2 {
         }
 
         if (item.getPrice() == null || item.getPrice() > 1000000 || item.getPrice() < 1000) {
-            bindingResult.addError(new FieldError("item", "price", item.getPrice(), false, new String[]{"range.item.price"}, new Object[]{1000, 1000000}, null));
+            bindingResult.addError(new FieldError("item", "price", item.getPrice(), false, new String[]{"range.item.price", "gdh.item.price"}, new Object[]{1000, 1000000}, null));
         }
 
         if (item.getQuantity() == null || item.getQuantity() > 9999 || item.getQuantity() < 1) {
