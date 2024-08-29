@@ -179,6 +179,12 @@ public class ValidationItemControllerV2 {
     @PostMapping("/add")
     public String addItemV4(@ModelAttribute("item") Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
+        // if typeMismatch occurs, return immediately
+        if (bindingResult.hasErrors()) {
+            log.info("errors={}", bindingResult);
+            return "/validation/v2/addForm";
+        }
+
         log.info("bindingResult.getObjectName() = {}", bindingResult.getObjectName());
         log.info("bindingResult.getTarget() = {}", bindingResult.getTarget());
 
