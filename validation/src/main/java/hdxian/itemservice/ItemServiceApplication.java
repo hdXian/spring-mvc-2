@@ -1,7 +1,10 @@
 package hdxian.itemservice;
 
+import hdxian.itemservice.web.validation.ItemValidator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.validation.Validator;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 public class ItemServiceApplication {
@@ -10,13 +13,9 @@ public class ItemServiceApplication {
 		SpringApplication.run(ItemServiceApplication.class, args);
 	}
 
-	// spring boot registers ResourceBundleMessageSource as a default MessageSource
-//	@Bean
-//	public MessageSource messageSource() {
-//		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-//		messageSource.setBasenames("messages", "errors");
-//		messageSource.setDefaultEncoding("utf-8");
-//		return messageSource;
+//	@Override // global validator config (implements WebMvcConfigurer needed)
+//	public Validator getValidator() {
+//		return new ItemValidator();
 //	}
 
 }
