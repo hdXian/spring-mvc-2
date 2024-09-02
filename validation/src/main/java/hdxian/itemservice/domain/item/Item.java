@@ -12,15 +12,15 @@ import java.util.List;
 public class Item {
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "상품명에 공백은 입력할 수 없습니다. (어노테이션 속성)")
     private String itemName;
 
-    @NotNull
+    @NotNull(message = "가격을 필수로 입력해야 합니다. (어노테이션 속성)")
     @Range(min = 1000, max = 1000000)
     private Integer price;
 
-    @NotNull
-    @Max(9999)
+    @NotNull(message = "수량을 필수로 입력해야 합니다. (어노테이션 속성)")
+    @Max(value = 9999, message = "최대 9999까지 입력할 수 있습니다. (어노테이션 속성)")
     private Integer quantity;
 
     public Item() {
