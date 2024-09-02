@@ -51,14 +51,7 @@ public class ValidationItemControllerV3 {
         log.info("bindingResult.getObjectName() = {}", bindingResult.getObjectName());
         log.info("bindingResult.getTarget() = {}", bindingResult.getTarget());
 
-        // add object error logic
-        if (item.getPrice() != null && item.getQuantity() != null) {
-            int totalPrice = item.getPrice() * item.getQuantity();
-            if (totalPrice < 10000) {
-                // reject(String errorCode, Object[] errorArgs, String defaultMessage);
-                bindingResult.reject("totalPriceMin", new Object[]{10000, totalPrice}, null);
-            }
-        }
+        validateTotalPriceMin(item, bindingResult);
 
         if (bindingResult.hasErrors()) {
             log.info("errors={}", bindingResult);
@@ -81,10 +74,29 @@ public class ValidationItemControllerV3 {
     }
 
     @PostMapping("/{itemId}/edit")
-    public String editItem(@PathVariable("itemId") Long itemId, @ModelAttribute("item") Item updateParam) {
+    public String editItem(@PathVariable("itemId") Long itemId, @Validated @ModelAttribute("item") Item updateParam, BindingResult bindingResult) {
+
+        validateTotalPriceMin(updateParam, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            log.info("errors={}", bindingResult);
+            return "/validation/v3/editForm";
+        }
+
         itemRepository.updateItem(itemId, updateParam);
         // use @PathVariable in redirect url
         return "redirect:/validation/v3/items/{itemId}";
+    }
+
+    private static void validateTotalPriceMin(Item item, BindingResult bindingResult) {
+        // object error logic
+        if (item.getPrice() != null && item.getQuantity() != null) {
+            int totalPrice = item.getPrice() * item.getQuantity();
+            if (totalPrice < 10000) {
+                // reject(String errorCode, Object[] errorArgs, String defaultMessage);
+                bindingResult.reject("totalPriceMin", new Object[]{10000, totalPrice}, null);
+            }
+        }
     }
 
 
