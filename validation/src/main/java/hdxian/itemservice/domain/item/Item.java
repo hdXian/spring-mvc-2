@@ -18,7 +18,7 @@ public class Item {
     private String itemName;
 
     @NotNull(message = "가격을 필수로 입력해야 합니다. (어노테이션 속성)")
-    @Range(min = 1000, max = 1000000)
+    @Range(min = 1000, max = 1000000, message = "1000 ~ 1000000 사이의 값을 허용합니다. (어노테이션 속성)")
     private Integer price;
 
     @NotNull(message = "수량을 필수로 입력해야 합니다. (어노테이션 속성)")

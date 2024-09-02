@@ -9,6 +9,10 @@
         .container {
         max-width: 560px;
         }
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
     </style>
 </head>
 <body>
@@ -17,6 +21,11 @@
         <h2 th:text="#{h2Text.editForm}">상품 수정 폼</h2>
     </div>
     <form action="item.html" th:action th:object="${item}" method="post">
+
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
+        </div>
+
         <div>
             <label for="id" th:text="#{labelText.item.id}">상품 ID</label>
             <input type="text" class="form-control" id="id" th:field="${item.id}" readonly>
@@ -24,17 +33,32 @@
         </div>
         <div>
             <label for="itemName" th:text="#{labelText.item.itemName}">상품명</label>
-            <input type="text" class="form-control" id="itemName" th:field="${item.itemName}">
+            <input type="text" class="form-control" id="itemName"
+                   th:field="${item.itemName}"
+                   th:errorclass="'field-error'">
+            <div class="field-error" th:errors="${item.itemName}">
+                상품명 오류 (html default)
+            </div>
 <!--        <input type="text" class="form-control" id="itemName" name="itemName" value="${item.itemName}">-->
         </div>
         <div>
             <label for="price" th:text="#{labelText.item.price}">가격</label>
-            <input type="text" class="form-control" id="price" th:field="${item.price}">
+            <input type="text" class="form-control" id="price"
+                   th:field="${item.price}"
+                   th:errorclass="'field-error'">
+            <div class="field-error" th:errors="${item.price}">
+                가격 오류 (html default)
+            </div>
 <!--        <input type="text" class="form-control" id="price" name="price" value="${item.price}">-->
         </div>
         <div>
             <label for="quantity" th:text="#{labelText.item.quantity}">수량</label>
-            <input type="text" class="form-control" id="quantity" th:field="${item.quantity}">
+            <input type="text" class="form-control" id="quantity"
+                   th:field="${item.quantity}"
+                   th:errorclass="'field-error'">
+            <div class="field-error" th:errors="${item.quantity}">
+                수량 오류 (html default)
+            </div>
 <!--        <input type="text" class="form-control" id="quantity" name="quantity" value="${item.quantity}">-->
         </div>
 
