@@ -51,6 +51,15 @@ public class ValidationItemControllerV3 {
         log.info("bindingResult.getObjectName() = {}", bindingResult.getObjectName());
         log.info("bindingResult.getTarget() = {}", bindingResult.getTarget());
 
+        // add object error logic
+        if (item.getPrice() != null && item.getQuantity() != null) {
+            int totalPrice = item.getPrice() * item.getQuantity();
+            if (totalPrice < 10000) {
+                // reject(String errorCode, Object[] errorArgs, String defaultMessage);
+                bindingResult.reject("totalPriceMin", new Object[]{10000, totalPrice}, null);
+            }
+        }
+
         if (bindingResult.hasErrors()) {
             log.info("errors={}", bindingResult);
             return "/validation/v3/addForm";
