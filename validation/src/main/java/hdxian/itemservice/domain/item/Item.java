@@ -5,13 +5,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;
-import org.hibernate.validator.constraints.ScriptAssert;
-
-import java.util.List;
 
 @Data // contains @Getter, @Setter, @RequiredArgsConstructor, @EqualsAndHashCode, @ToString
 //@ScriptAssert(lang = "javascript", script = "_this.price * _this.quantity >= 10000") deprecated since jdk 17
 public class Item {
+
+    @NotNull
     private Long id;
 
     @NotBlank(message = "상품명에 공백은 입력할 수 없습니다. (어노테이션 속성)")
