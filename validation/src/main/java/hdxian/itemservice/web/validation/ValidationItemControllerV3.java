@@ -1,7 +1,9 @@
 package hdxian.itemservice.web.validation;
 
+import hdxian.itemservice.domain.item.AddCheck;
 import hdxian.itemservice.domain.item.Item;
 import hdxian.itemservice.domain.item.ItemRepository;
+import hdxian.itemservice.domain.item.UpdateCheck;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -46,8 +48,28 @@ public class ValidationItemControllerV3 {
         return "/validation/v3/addForm";
     }
 
-    @PostMapping("/add")
+//    @PostMapping("/add")
     public String addItem(@Validated @ModelAttribute("item") Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        log.info("bindingResult.getObjectName() = {}", bindingResult.getObjectName());
+        log.info("bindingResult.getTarget() = {}", bindingResult.getTarget());
+
+        validateTotalPriceMin(item, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            log.info("errors={}", bindingResult);
+            return "/validation/v3/addForm";
+        }
+
+        Item savedItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        redirectAttributes.addAttribute("status", true); // put into query parameter
+
+        // /validation/v3/items/1?status=true
+        return "redirect:/validation/v3/items/{itemId}";
+    }
+
+    @PostMapping("/add")
+    public String addItemV2(@Validated(AddCheck.class) @ModelAttribute("item") Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         log.info("bindingResult.getObjectName() = {}", bindingResult.getObjectName());
         log.info("bindingResult.getTarget() = {}", bindingResult.getTarget());
 
@@ -73,8 +95,23 @@ public class ValidationItemControllerV3 {
         return "/validation/v3/editForm";
     }
 
-    @PostMapping("/{itemId}/edit")
+//    @PostMapping("/{itemId}/edit")
     public String editItem(@PathVariable("itemId") Long itemId, @Validated @ModelAttribute("item") Item updateParam, BindingResult bindingResult) {
+
+        validateTotalPriceMin(updateParam, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            log.info("errors={}", bindingResult);
+            return "/validation/v3/editForm";
+        }
+
+        itemRepository.updateItem(itemId, updateParam);
+        // use @PathVariable in redirect url
+        return "redirect:/validation/v3/items/{itemId}";
+    }
+
+    @PostMapping("/{itemId}/edit")
+    public String editItemV2(@PathVariable("itemId") Long itemId, @Validated(UpdateCheck.class) @ModelAttribute("item") Item updateParam, BindingResult bindingResult) {
 
         validateTotalPriceMin(updateParam, bindingResult);
 

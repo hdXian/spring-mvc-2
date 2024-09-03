@@ -10,18 +10,18 @@ import org.hibernate.validator.constraints.Range;
 //@ScriptAssert(lang = "javascript", script = "_this.price * _this.quantity >= 10000") deprecated since jdk 17
 public class Item {
 
-    @NotNull
+    @NotNull(groups = UpdateCheck.class)
     private Long id;
 
-    @NotBlank(message = "상품명에 공백은 입력할 수 없습니다. (어노테이션 속성)")
+    @NotBlank(groups = {AddCheck.class, UpdateCheck.class})
     private String itemName;
 
-    @NotNull(message = "가격을 필수로 입력해야 합니다. (어노테이션 속성)")
-    @Range(min = 1000, max = 1000000, message = "1000 ~ 1000000 사이의 값을 허용합니다. (어노테이션 속성)")
+    @NotNull(groups = {AddCheck.class, UpdateCheck.class})
+    @Range(min = 1000, max = 1000000, groups = {AddCheck.class, UpdateCheck.class})
     private Integer price;
 
-    @NotNull(message = "수량을 필수로 입력해야 합니다. (어노테이션 속성)")
-    @Max(value = 9999, message = "최대 9999까지 입력할 수 있습니다. (어노테이션 속성)")
+    @NotNull(groups = {AddCheck.class, UpdateCheck.class})
+    @Max(value = 9999, groups = AddCheck.class)
     private Integer quantity;
 
     public Item() {
