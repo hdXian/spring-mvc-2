@@ -89,8 +89,10 @@ public class ValidationItemControllerV4 {
         log.info("bindingResult.getObjectName() = {}", bindingResult.getObjectName());
         log.info("bindingResult.getTarget() = {}", bindingResult.getTarget());
 
+        // when itemId not equals between URL and Request parameter
+        // ex) URL is ".../3/edit" but updateForm.getId() is 4
         if (itemId != updateForm.getId().longValue()) {
-            bindingResult.reject("valueMismatch");
+            bindingResult.reject("invalidItemId");
         }
 
         validateTotalPriceMin(updateForm, bindingResult);
