@@ -10,18 +10,18 @@ import org.hibernate.validator.constraints.Range;
 //@ScriptAssert(lang = "javascript", script = "_this.price * _this.quantity >= 10000") deprecated since jdk 17
 public class Item {
 
-    @NotNull(groups = UpdateCheck.class)
+//    @NotNull(groups = UpdateCheck.class)
     private Long id;
 
-    @NotBlank(groups = {AddCheck.class, UpdateCheck.class})
+//    @NotBlank(groups = {AddCheck.class, UpdateCheck.class})
     private String itemName;
 
-    @NotNull(groups = {AddCheck.class, UpdateCheck.class})
-    @Range(min = 1000, max = 1000000, groups = {AddCheck.class, UpdateCheck.class})
+//    @NotNull(groups = {AddCheck.class, UpdateCheck.class})
+//    @Range(min = 1000, max = 1000000, groups = {AddCheck.class, UpdateCheck.class})
     private Integer price;
 
-    @NotNull(groups = {AddCheck.class, UpdateCheck.class})
-    @Max(value = 9999, groups = AddCheck.class)
+//    @NotNull(groups = {AddCheck.class, UpdateCheck.class})
+//    @Max(value = 9999, groups = AddCheck.class)
     private Integer quantity;
 
     public Item() {
