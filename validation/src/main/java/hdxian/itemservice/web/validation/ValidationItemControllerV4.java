@@ -19,7 +19,7 @@ import java.util.List;
 
 
 /**
- * V4 is the version that separates add and edit form object.
+ * V4 -  separate addItemForm and editItemForm
  *
  */
 @Slf4j
@@ -85,7 +85,13 @@ public class ValidationItemControllerV4 {
     }
 
     @PostMapping("/{itemId}/edit")
-    public String editItem(@PathVariable("itemId") Long itemId, @Validated(UpdateCheck.class) @ModelAttribute("item") ItemUpdateForm updateForm, BindingResult bindingResult) {
+    public String editItem(@PathVariable("itemId") Long itemId, @Validated @ModelAttribute("item") ItemUpdateForm updateForm, BindingResult bindingResult) {
+        log.info("bindingResult.getObjectName() = {}", bindingResult.getObjectName());
+        log.info("bindingResult.getTarget() = {}", bindingResult.getTarget());
+
+        if (itemId != updateForm.getId().longValue()) {
+            bindingResult.reject("valueMismatch");
+        }
 
         validateTotalPriceMin(updateForm, bindingResult);
 

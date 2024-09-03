@@ -14,7 +14,7 @@ public class ItemAddForm {
     private String itemName;
 
     @NotNull
-    @Range(min = 10000, max = 1000000)
+    @Range(min = 1000, max = 1000000)
     private Integer price;
 
     @NotNull
