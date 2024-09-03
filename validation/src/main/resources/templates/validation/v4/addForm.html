@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link href="../../css/bootstrap.min.css"
+          th:href="@{/css/bootstrap.min.css}"
+          rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2 th:text="#{h2Text.addForm}">상품 등록 폼</h2>
+    </div>
+    <h4 class="mb-3" th:text="#{inputText.input}">상품 입력</h4>
+    <form action="item.html" th:action th:object="${item}" method="post">
+
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
+        </div>
+
+        <div>
+            <label for="itemName" th:text="#{labelText.item.itemName}">상품명</label>
+            <input type="text" id="itemName" class="form-control" th:placeholder="#{inputText.placeholder.itemName}"
+                   placeholder="이름을 입력하세요"
+                   th:errorclass="'field-error'"
+                   th:field="${item.itemName}">
+            <!--            <div class="field-error" th:if="${errors?.containsKey('itemName')}">-->
+            <!--                <p th:text="${errors['itemName']}">상품명 오류</p>-->
+            <div class="field-error" th:errors="${item.itemName}">
+                상품명 오류 (html default)
+            </div>
+        </div>
+        <div>
+            <label for="price" th:text="#{labelText.item.price}" >가격</label>
+            <input type="text" id="price" class="form-control" th:placeholder="#{inputText.placeholder.price}"
+                   placeholder="가격을 입력하세요"
+                   th:errorclass="'field-error'"
+                   th:field="${item.price}">
+            <div class="field-error" th:errors="${item.price}">
+                상품 가격 오류 (html default)
+            </div>
+        </div>
+        <div>
+            <label for="quantity" th:text="#{labelText.item.quantity}">수량</label>
+            <input type="text" id="quantity" class="form-control" th:placeholder="#{inputText.placeholder.quantity}"
+                   placeholder="수량을 입력하세요"
+                   th:errorclass="'field-error'"
+                   th:field="${item.quantity}">
+            <div class="field-error" th:errors="${item.quantity}">
+                상품 수량 오류 (html default)
+            </div>
+        </div>
+
+        <hr class="my-4">
+
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit" th:text="#{pageText.addItem}">상품 등록</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        onclick="location.href='items.html'"
+                        th:onclick="|location.href='@{/validation/v4/items}'|"
+                        th:text="#{buttonText.cancel}"
+                        type="button">취소</button>
+            </div>
+        </div>
+    </form>
+</div> <!-- /container -->
+</body>
+</html>
