@@ -1,14 +1,27 @@
 package hdxian.itemservice.domain.item;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-
-import java.util.List;
+import org.hibernate.validator.constraints.Range;
 
 @Data // contains @Getter, @Setter, @RequiredArgsConstructor, @EqualsAndHashCode, @ToString
+//@ScriptAssert(lang = "javascript", script = "_this.price * _this.quantity >= 10000") deprecated since jdk 17
 public class Item {
+
+//    @NotNull(groups = UpdateCheck.class)
     private Long id;
+
+//    @NotBlank(groups = {AddCheck.class, UpdateCheck.class})
     private String itemName;
+
+//    @NotNull(groups = {AddCheck.class, UpdateCheck.class})
+//    @Range(min = 1000, max = 1000000, groups = {AddCheck.class, UpdateCheck.class})
     private Integer price;
+
+//    @NotNull(groups = {AddCheck.class, UpdateCheck.class})
+//    @Max(value = 9999, groups = AddCheck.class)
     private Integer quantity;
 
     public Item() {
