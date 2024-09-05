@@ -29,14 +29,14 @@ public class HomeController {
             return "home";
         }
 
-        // cannot find member (cookie exists)
+        // cannot find member (memberId cookie exists)
         Member loginMember = memberRepository.findById(memberId);
         if(loginMember == null) {
             log.info("[HomeController] cannot find member with memberId={}", memberId);
             return "home";
         }
 
-        // success to login (cookie exists)
+        // success to login (memberId cookie exists)
         model.addAttribute("member", loginMember); // to display member info
         return "loginHome";
     }

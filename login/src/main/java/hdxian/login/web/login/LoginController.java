@@ -9,25 +9,21 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/login")
 public class LoginController {
 
     private final LoginService loginService;
 
-    @GetMapping
+    @GetMapping("/login")
     public String loginForm(@ModelAttribute("loginForm") LoginForm form) {
         return "/login/loginForm";
     }
 
-    @PostMapping
+    @PostMapping("/login")
     public String login(@Valid @ModelAttribute("loginForm") LoginForm form, BindingResult bindingResult, HttpServletResponse response) {
 
         // if there are failure with binding
@@ -49,6 +45,18 @@ public class LoginController {
         Cookie idCookie = new Cookie("memberId", String.valueOf(loginMember.getId())); // add memberId as Cookie
         response.addCookie(idCookie); // cookie with no max-age: removed when browser off (session cookie)
         return "redirect:/";
+    }
+
+    @PostMapping("/logout")
+    public String logout(HttpServletResponse response) {
+        expireCookie(response, "memberId");
+        return "redirect:/";
+    }
+
+    private static void expireCookie(HttpServletResponse response, String cookieName) {
+        Cookie idCookie = new Cookie(cookieName, null);
+        idCookie.setMaxAge(0); // how to expire cookies -> set max-age to 0(zero).
+        response.addCookie(idCookie);
     }
 
 }
