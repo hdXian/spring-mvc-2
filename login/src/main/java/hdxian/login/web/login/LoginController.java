@@ -49,6 +49,7 @@ public class LoginController {
 
     @PostMapping("/logout")
     public String logout(HttpServletResponse response) {
+        // expire cookie and redirect to home
         expireCookie(response, "memberId");
         return "redirect:/";
     }
