@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -61,7 +62,7 @@ public class HomeController {
         return "loginHome";
     }
 
-    @GetMapping("/")
+//    @GetMapping("/")
     public String homeLoginV3(HttpServletRequest request, Model model) {
 
         HttpSession session = request.getSession(false); // if session not exist, return null
@@ -73,6 +74,20 @@ public class HomeController {
 
         // session exists, but no member
         Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER); // "loginMember" <- cookie name
+        if (loginMember == null) {
+            log.info("[HomeController] loginMember is null: render login page.");
+            return "home";
+        }
+
+        // success to login (session exists)
+        model.addAttribute("member", loginMember); // to display member info
+        return "loginHome";
+    }
+
+    @GetMapping("/")
+    public String homeLoginV3Spring(@SessionAttribute(value = SessionConst.LOGIN_MEMBER, required = false) Member loginMember, Model model) {
+
+        // if loginMember is null (session exist but no member, or session not exist)
         if (loginMember == null) {
             log.info("[HomeController] loginMember is null: render login page.");
             return "home";

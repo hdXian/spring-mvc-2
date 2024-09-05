@@ -97,7 +97,7 @@ public class LoginController {
         // get (or create new) session
         HttpSession session = request.getSession(true);
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember); // put attributes into session
-        log.info("[LoginController] loginSessionId={}", session.getId());
+        log.info("[LoginController] success to login: sessionId={}", session.getId());
         return "redirect:/";
     }
 
