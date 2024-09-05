@@ -32,17 +32,25 @@ public class SessionManager {
     }
 
     public Object getSession(HttpServletRequest request) {
+
         Cookie sessionCookie = findCookie(request, SESSION_COOKIE_NAME); // sessionId=1234-abcd-5678-...
         if (sessionCookie == null) {
+            log.info("[SessionManager] request has no cookies");
             return null;
         }
 
         String sessionId = sessionCookie.getValue();
-        return sessionStore.get(sessionId); // find in Map<String, Object>
+        Object result = sessionStore.get(sessionId); // find in Map<String, Object>
+        if (result == null) {
+            log.info("[SessionManager] cannot find session={}" ,sessionId);
+        }
+
+        return result;
     }
 
     // remove sessionId from Map
     public void expireSession(HttpServletRequest request) {
+
         Cookie sessionCookie = findCookie(request, SESSION_COOKIE_NAME);
         if (sessionCookie != null) {
             String sessionId = sessionCookie.getValue();
@@ -50,6 +58,7 @@ public class SessionManager {
         }
     }
 
+    // find cookie with name
     private Cookie findCookie(HttpServletRequest request, String cookieName) {
         if (request.getCookies() == null) { // if request has no cookies
             return null;
