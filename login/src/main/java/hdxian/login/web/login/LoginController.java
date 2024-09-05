@@ -2,6 +2,8 @@ package hdxian.login.web.login;
 
 import hdxian.login.domain.login.LoginService;
 import hdxian.login.domain.member.Member;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +28,7 @@ public class LoginController {
     }
 
     @PostMapping
-    public String login(@Valid @ModelAttribute("loginForm") LoginForm form, BindingResult bindingResult) {
+    public String login(@Valid @ModelAttribute("loginForm") LoginForm form, BindingResult bindingResult, HttpServletResponse response) {
 
         // if there are failure with binding
         if (bindingResult.hasErrors()) {
@@ -35,16 +37,17 @@ public class LoginController {
         }
 
         // check loginId and password
-        Member loginResult = loginService.login(form.getLoginId(), form.getPassword());
-        log.info("[LoginController] loginResult ? {}", loginResult);
+        Member loginMember = loginService.login(form.getLoginId(), form.getPassword());
+        log.info("[LoginController] loginMember ? {}", loginMember);
 
-        if (loginResult == null) {
+        if (loginMember == null) {
             bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
             return "/login/loginForm";
         }
 
-        // TODO: login success logic
-
+        // login success logic
+        Cookie idCookie = new Cookie("memberId", String.valueOf(loginMember.getId())); // add memberId as Cookie
+        response.addCookie(idCookie); // cookie with no max-age: removed when browser off (session cookie)
         return "redirect:/";
     }
 
