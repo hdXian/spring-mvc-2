@@ -2,10 +2,12 @@ package hdxian.login.web.login;
 
 import hdxian.login.domain.login.LoginService;
 import hdxian.login.domain.member.Member;
+import hdxian.login.web.SessionConst;
 import hdxian.login.web.session.SessionManager;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +52,7 @@ public class LoginController {
         return "redirect:/";
     }
 
-    @PostMapping("/login")
+//    @PostMapping("/login")
     public String loginV2(@Valid @ModelAttribute("loginForm") LoginForm form, BindingResult bindingResult, HttpServletResponse response) {
 
         // if there are failure in binding
@@ -73,6 +75,32 @@ public class LoginController {
         return "redirect:/";
     }
 
+    @PostMapping("/login")
+    public String loginV3(@Valid @ModelAttribute("loginForm") LoginForm form, BindingResult bindingResult, HttpServletRequest request) {
+
+        // if there are failure in binding
+        if (bindingResult.hasErrors()) {
+            log.info("[LoginController] bindingResult={}", bindingResult);
+            return "/login/loginForm";
+        }
+
+        // check loginId and password
+        Member loginMember = loginService.login(form.getLoginId(), form.getPassword());
+        log.info("[LoginController] loginMember ? {}", loginMember);
+
+        if (loginMember == null) {
+            bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
+            return "/login/loginForm";
+        }
+
+        // login success
+        // get (or create new) session
+        HttpSession session = request.getSession(true);
+        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember); // put attributes into session
+        log.info("[LoginController] loginSessionId={}", session.getId());
+        return "redirect:/";
+    }
+
 //    @PostMapping("/logout")
     public String logout(HttpServletResponse response) {
         // expire cookie and redirect to home
@@ -80,10 +108,20 @@ public class LoginController {
         return "redirect:/";
     }
 
-    @PostMapping("/logout")
+//    @PostMapping("/logout")
     public String logoutV2(HttpServletRequest request) {
         // request의 cookies에서 sessionId를 찾고, 그걸 key로 하는 세션 저장소에서 세션 삭제
         sessionManager.expireSession(request);
+        return "redirect:/";
+    }
+
+    @PostMapping("/logout")
+    public String logoutV3(HttpServletRequest request) {
+        HttpSession session = request.getSession(false); // get session if exist
+        if (session != null) {
+            log.info("[LoginController] session expired due to logout: sessionId={}", session.getId());
+            session.invalidate(); // expire session
+        }
         return "redirect:/";
     }
 
