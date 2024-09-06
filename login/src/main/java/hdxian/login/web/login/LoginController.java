@@ -75,7 +75,7 @@ public class LoginController {
         return "redirect:/";
     }
 
-    @PostMapping("/login")
+//    @PostMapping("/login")
     public String loginV3(@Valid @ModelAttribute("loginForm") LoginForm form, BindingResult bindingResult, HttpServletRequest request) {
 
         // if there are failure in binding
@@ -99,6 +99,34 @@ public class LoginController {
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember); // put attributes into session
         log.info("[LoginController] success to login: sessionId={}", session.getId());
         return "redirect:/";
+    }
+
+    @PostMapping("/login")
+    public String loginV4(@Valid @ModelAttribute("loginForm") LoginForm form, BindingResult bindingResult,
+                          @RequestParam(value = "redirectURL", defaultValue = "/") String redirectURL,
+                          HttpServletRequest request) {
+
+        // if there are failure in binding
+        if (bindingResult.hasErrors()) {
+            log.info("[LoginController] bindingResult={}", bindingResult);
+            return "/login/loginForm";
+        }
+
+        // check loginId and password
+        Member loginMember = loginService.login(form.getLoginId(), form.getPassword());
+        log.info("[LoginController] loginMember ? {}", loginMember);
+
+        if (loginMember == null) {
+            bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
+            return "/login/loginForm";
+        }
+
+        // login success
+        // get (or create new) session
+        HttpSession session = request.getSession(true);
+        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember); // put attributes into session
+        log.info("[LoginController] success to login: sessionId={}", session.getId());
+        return "redirect:" + redirectURL; // 튕겨져 나온 URL을 보관해놨다가 로그인하면 거기로 다시 보내줌. (주의: '/' 빼야함. 왜 // 여러개 넣으면 문제생기지? 무시하는걸로 아는데.)
     }
 
 //    @PostMapping("/logout")
