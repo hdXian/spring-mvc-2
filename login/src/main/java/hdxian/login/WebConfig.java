@@ -3,6 +3,7 @@ package hdxian.login;
 import hdxian.login.web.filter.LogFilter;
 import hdxian.login.web.filter.LoginCheckFilter;
 import hdxian.login.web.interceptor.LogInterceptor;
+import hdxian.login.web.interceptor.LoginCheckInterceptor;
 import jakarta.servlet.Filter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +20,11 @@ public class WebConfig implements WebMvcConfigurer {
                 .order(1)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/css/**", "/*.ico", "/error");
+
+        registry.addInterceptor(new LoginCheckInterceptor())
+                .order(2)
+                .addPathPatterns("/**")
+                .excludePathPatterns("/", "/members/add", "/login", "/logout", "/css/**", "/*.ico", "/error");
     }
 
     // register logFilter as spring bean
@@ -31,7 +37,7 @@ public class WebConfig implements WebMvcConfigurer {
         return filterRegistrationBean;
     }
 
-    @Bean
+//    @Bean
     public FilterRegistrationBean loginCheckFilter() {
         FilterRegistrationBean<LoginCheckFilter> frb = new FilterRegistrationBean<>();
         frb.setFilter(new LoginCheckFilter());

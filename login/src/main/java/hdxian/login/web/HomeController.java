@@ -89,7 +89,7 @@ public class HomeController {
 
         // if loginMember is null (session exist but no member, or session not exist)
         if (loginMember == null) {
-            log.info("[HomeController] loginMember is null: session is null or member not exist");
+            log.info("[HomeController] loginMember is null: render home");
             return "home";
         }
 
