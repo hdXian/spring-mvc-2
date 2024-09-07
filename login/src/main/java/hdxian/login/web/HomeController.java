@@ -2,6 +2,7 @@ package hdxian.login.web;
 
 import hdxian.login.domain.member.Member;
 import hdxian.login.domain.member.MemberRepository;
+import hdxian.login.web.argumentresolver.Login;
 import hdxian.login.web.session.SessionManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -84,12 +85,26 @@ public class HomeController {
         return "loginHome";
     }
 
-    @GetMapping("/")
+//    @GetMapping("/")
     public String homeLoginV3Spring(@SessionAttribute(value = SessionConst.LOGIN_MEMBER, required = false) Member loginMember, Model model) {
 
         // if loginMember is null (session exist but no member, or session not exist)
         if (loginMember == null) {
-            log.info("[HomeController] loginMember is null: session is null or member not exist");
+            log.info("[HomeController] loginMember is null: render home");
+            return "home";
+        }
+
+        // success to login (session exists)
+        model.addAttribute("member", loginMember); // to display member info
+        return "loginHome";
+    }
+
+    @GetMapping("/")
+    public String homeLoginV3ArgumentResolver(@Login Member loginMember, Model model) {
+
+        // if loginMember is null (session exist but no member, or session not exist)
+        if (loginMember == null) {
+            log.info("[HomeController] loginMember is null: render home");
             return "home";
         }
 
