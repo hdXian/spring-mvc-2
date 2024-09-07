@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class ErrorPageController {
 
+    // ErrorPage 추가해주던 customizer가 지금 비활성화돼서 오류 떠도 WAS가 이쪽으로 요청 안 함.
+
     // declared in RequestDispatcher as constant
     public static final String ERROR_EXCEPTION = "jakarta.servlet.error.exception";
     public static final String ERROR_EXCEPTION_TYPE = "jakarta.servlet.error.exception_type";

@@ -20,6 +20,11 @@ public class ServletExceptionController {
         response.sendError(404, "404 error occurs!");
     }
 
+    @GetMapping("/error-401")
+    public void error401(HttpServletResponse response) throws IOException {
+        response.sendError(401, "401 error occurs!");
+    }
+
     @GetMapping("/error-500")
     public void error500(HttpServletResponse response) throws IOException {
         response.sendError(500, "500 error occurs!");
