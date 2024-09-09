@@ -17,6 +17,9 @@ public class ApiExceptionController {
         if (id.equals("ex")) {
             throw new RuntimeException("invalid Member");
         }
+        if (id.equals("bad")) {
+            throw new IllegalArgumentException("잘못된 memberId 입력");
+        }
 
         return new MemberDto(id, "hello " + id);
     }
