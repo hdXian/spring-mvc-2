@@ -28,7 +28,7 @@ public class MyHandlerExceptionResolver implements HandlerExceptionResolver {
             log.error("[MyHandlerExceptionResolver] IOException occurs", e);
         }
 
-        log.info("[MyHandlerExceptionResolver] failed to resolve Exception");
+        log.info("[MyHandlerExceptionResolver] failed to resolve [{}]", ex.getClass());
         return null;
     }
 

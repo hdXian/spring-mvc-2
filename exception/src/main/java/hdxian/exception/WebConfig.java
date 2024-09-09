@@ -3,6 +3,7 @@ package hdxian.exception;
 import hdxian.exception.filter.LogFilter;
 import hdxian.exception.interceptor.LogInterceptor;
 import hdxian.exception.resolver.MyHandlerExceptionResolver;
+import hdxian.exception.resolver.UserHandlerExceptionResolver;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.Filter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -44,5 +45,6 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
         resolvers.add(new MyHandlerExceptionResolver());
+        resolvers.add(new UserHandlerExceptionResolver());
     }
 }
