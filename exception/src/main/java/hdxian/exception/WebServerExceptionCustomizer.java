@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 // it's a spring boot utility to use servlet error page comfortably. -> need to register as a spring bean.
-//@Component // disable to use BasicErrorController (spring boot offers)
+@Component // disable to use BasicErrorController (spring boot offers)
 public class WebServerExceptionCustomizer implements WebServerFactoryCustomizer<ConfigurableWebServerFactory> {
 
     @Override
