@@ -39,9 +39,9 @@ public class ApiExceptionController {
 
     @GetMapping("/api/response-status-ex2")
     public String responseStatusEx2() {
-        // @ResponseStatus를 별도로 붙일 수 없을 때 (라이브러리 예외 등) ResponseStatusException 객체를 직접 throw
-        // 둘 다 ResponseStatusExceptionResolver가 처리함.
-        // reason (오류 메시지)에 메시지 소스 사용 가능. (없으면 넣어둔 문자열 자체를 defaultMessage로 지정)
+        // @ResponseStatus를 별도로 붙일 수 없을 때 (라이브러리 예외 등) ResponseStatusException 객체를 생성해 throw
+        // 둘 다 ResponseStatusExceptionResolver가 처리.
+        // reason을 메시지 소스에서 먼저 찾고, 없으면 문자열 자체를 메시지로 지정해서 sendError().
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "error.bad", new IllegalArgumentException());
     }
 
