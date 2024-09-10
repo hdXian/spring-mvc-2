@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -35,6 +36,11 @@ public class ApiExceptionController {
     public String responseStatusEx1() {
         // @ResponseStatus를 붙인 Exception 클래스
         throw new BadRequestException();
+    }
+
+    @GetMapping("/api/default-handler-ex")
+    public String defaultException(@RequestParam("data") Integer data) { // 타입이 맞지 않으면 TypeMisMatchException 발생 -> DefaultHandlerExceptionResolver가 처리.
+        return "ok";
     }
 
     @GetMapping("/api/response-status-ex2")
