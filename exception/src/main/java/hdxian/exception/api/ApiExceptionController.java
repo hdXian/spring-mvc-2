@@ -23,7 +23,7 @@ public class ApiExceptionController {
             throw new RuntimeException("invalid Member");
         }
         if (id.equals("bad")) {
-            throw new IllegalArgumentException("잘못된 memberId 입력");
+            throw new IllegalArgumentException("잘못된 memberId 입력"); // MyHandlerExceptionResolver 동작 중
         }
         if (id.equals("user-ex")) {
             throw new UserException("사용자 오류");
