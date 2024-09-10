@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @Slf4j
 @RestController
@@ -50,6 +51,13 @@ public class ApiExceptionV2Handler {
         }
 
         return new MemberDto(id, "hello " + id);
+    }
+
+    // ResponseStatusException는 @ResponseStatus가 붙어있어 ResponseStatusExceptionResolver의 대상이기도 하나,
+    // ExceptionHandlerExceptionResolver가 우선순위가 더 높아 exHandle()이 실행됨.
+    @GetMapping("/api2/response-status-ex2")
+    public String responseStatusEx2() {
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "error.bad", new IllegalArgumentException());
     }
 
     @Data
