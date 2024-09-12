@@ -1,0 +1,29 @@
+package hdxian.typeconverter.formatter;
+
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.format.support.DefaultFormattingConversionService;
+
+import java.text.ParseException;
+import java.util.Locale;
+
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+class MyNumberFormatterTest {
+
+    MyNumberFormatter formatter = new MyNumberFormatter();
+
+    @Test
+    void parse() throws ParseException {
+        Number result = formatter.parse("1,000", Locale.KOREA);
+        assertThat(result).isEqualTo(1000L); // NumberFormat.parse() returns Long.
+    }
+
+    @Test
+    void print() {
+        String print = formatter.print(1000, Locale.KOREA);
+        assertThat(print).isEqualTo("1,000");
+    }
+
+}
