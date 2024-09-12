@@ -12,11 +12,13 @@ public class ConversionServiceTest {
     void conversionService() {
         DefaultConversionService conversionService = new DefaultConversionService();
 
-        conversionService.addConverter(new StringToIntegerConverter());
+//        conversionService.addConverter(new StringToIntegerConverter());
+        conversionService.addConverter(String.class, Integer.class, new StringToIntegerConverter()); // able to specify types of source and target
         conversionService.addConverter(new IntegerToStringConverter());
 
         conversionService.addConverter(new StringToIpPortConverter());
-        conversionService.addConverter(new IpPortToStringConverter());
+//        conversionService.addConverter(new IpPortToStringConverter());
+        conversionService.addConverter(IpPort.class, String.class, new IpPortToStringConverter());
 
         assertThat(conversionService.convert("10", Integer.class)).isEqualTo(10);
         assertThat(conversionService.convert(10, String.class)).isEqualTo("10");
