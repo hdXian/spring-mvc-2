@@ -1,5 +1,6 @@
 package hdxian.typeconverter.controller;
 
+import hdxian.typeconverter.customType.IpPort;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,14 @@ public class HelloController {
         // Spring converts query string automatically by using TypeConverter
         // @ModelAttribute, @PathVariable are the same as well.
         System.out.println("data = " + data);
+        return "ok";
+    }
+
+    @GetMapping("/ip-port")
+    public String ipPort(@RequestParam("ipPort") IpPort ipPort) {
+        // ArgumentResolver uses ConversionService when generate arguments.
+        // such as @RequestParam, @ModelAttribute, ...
+        System.out.println("ipPort = " + ipPort);
         return "ok";
     }
 
