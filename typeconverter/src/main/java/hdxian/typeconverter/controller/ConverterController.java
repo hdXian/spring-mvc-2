@@ -26,8 +26,8 @@ public class ConverterController {
         return "converter-form";
     }
 
-    // 쿼리 파라미터에 ipPort=abcd.. 식으로 넘어오는 데이터를
-    // IpPort 타입으로 직접 받는게 아니라 Form 타입의 속성으로서 받을 경우,
+    // 쿼리 파라미터에 ipPort=abcd.. 식으로 넘어오는 데이터를 (html Form에 의해)
+    // IpPort 타입으로 직접 받는게 아니라 Form 타입의 속성으로서 받을 경우, (Form으로 넘기는 데이터가 여러개면 해당 속성들을 가지는 객체를 ModelAttribute로 받을 수 있음)
     // 스프링은 new Form(); 으로 빈 객체를 만든 후 setter를 사용하는 것으로 보임.
     // 즉 이 경우에는 Form 클래스에 인자를 받지 않는 생성자가 필요함. (since spring framework 6.1)
     // 이전에는 바인딩 방식이 달라서 빈 생성자가 없어도 문제가 없던 것으로 보임.
