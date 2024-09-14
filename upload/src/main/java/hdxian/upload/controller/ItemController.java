@@ -66,13 +66,18 @@ public class ItemController {
         return "/item-view";
     }
 
-
     // fileName is uuid
-    @ResponseBody
     @GetMapping("/images/{fileName}")
-    public Resource downloadImage(@PathVariable("fileName") String fileName) throws MalformedURLException {
+    public ResponseEntity<Resource> downloadImage(@PathVariable("fileName") String fileName) throws MalformedURLException {
+        String ext = FileStore.extractExt(fileName);
+        String contentType = "image/" + ext;
+
         String resourceUrl = "file:" + fileStore.getFullPath(fileName);
-        return new UrlResource(resourceUrl);
+        UrlResource imageResource = new UrlResource(resourceUrl);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_TYPE,contentType)
+                .body(imageResource);
     }
 
     // find attachFile by itemId (Item domain has UploadFile)

@@ -65,7 +65,7 @@ public class FileStore {
     }
 
     // abcabc.png -> png
-    private static String extractExt(String originalFilename) {
+    public static String extractExt(String originalFilename) {
         int pos = originalFilename.lastIndexOf(".");
         return originalFilename.substring(pos + 1);
     }
